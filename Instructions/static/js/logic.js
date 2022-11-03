@@ -22,6 +22,41 @@ d3.json(queryUrl).then(function (data) {
           }
         }  
    
+        function getColor(depth) {
+         if (depth > 5) {
+           return "#ea2c2c";
+         }
+         if (depth > 4) {
+           return "#ea822c";
+         }
+         if (depth > 3) {
+           return "#ee9c00";
+         }
+         if (depth > 2) {
+           return "#eecc00";
+         }
+         if (depth > 1) {
+           return "#d4ee00";
+         }
+         return "#98ee00";
+       }
+       function styleInfo(feature){
+        return {
+          radius: getColor(feature.geometry.coordinates[2])
+        }
+      }  
+  
+       function styleInfo (feature) {
+        return {
+            fillColor: getColor(feature.geometry.coordinates[2]),
+            weight: 2,
+            opacity: 1,
+            color: 'white',
+            dashArray: '3',
+            fillOpacity: 0.7
+        };
+    }
+ 
 
 
 function createFeatures(earthquakeData) {
