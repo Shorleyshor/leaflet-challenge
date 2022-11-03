@@ -1,5 +1,27 @@
+// Store our API endpoint as queryUrl.
+var queryUrl = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
 
- 
+// Perform a GET request to the query URL/
+d3.json(queryUrl).then(function (data) {
+    console.log(data.features);
+
+    createFeatures(data.features);
+    
+    earthquakeData = data.features
+
+    function getRadius(magnitude){
+        if (magnitude === 0) {
+          return 1;
+        }
+        
+        return magnitude * 5;
+      }
+      function styleInfo(feature){
+          return {
+            radius: getRadius(feature.properties.mag)
+          }
+        }  
+   
 
 
 function createFeatures(earthquakeData) {
