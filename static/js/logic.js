@@ -8,6 +8,7 @@ d3.json(queryUrl).then(function (data) {
     createFeatures(data.features);
     
     earthquakeData = data.features
+  // This function determines the radius of the earthquake marker based on its magnitude.
 
     function getRadius(magnitude){
         if (magnitude === 0) {
@@ -21,21 +22,22 @@ d3.json(queryUrl).then(function (data) {
             radius: getRadius(feature.properties.mag)
           }
         }  
-   
-        function getColor(depth) {
-         if (depth > 5) {
+     // This function determines the color of the marker based on the magnitude of the earthquake.
+
+        function getColor(magnitude) {
+         if (magnitude > 5) {
            return "#ea2c2c";
          }
-         if (depth > 4) {
+         if (magnitude > 4) {
            return "#ea822c";
          }
-         if (depth > 3) {
+         if (magnitude > 3) {
            return "#ee9c00";
          }
-         if (depth > 2) {
+         if (magnitude > 2) {
            return "#eecc00";
          }
-         if (depth > 1) {
+         if (magnitude > 1) {
            return "#d4ee00";
          }
          return "#98ee00";
@@ -111,6 +113,39 @@ function createMap(earthquakes) {
     zoom: 5,
     layers: [street, earthquakes]
   });
+
+  // ----------------------------
+   // Here we create a legend control object.
+  let legend = L.control({
+    position: "bottomleft"
+  });
+
+  // Then add all the details for the legend
+  legend.onAdd = function() {
+    let div = L.DomUtil.create("div", "info legend");
+
+    const magnitudes = [0, 1, 2, 3, 4, 5];
+    const colors = [
+      "#98ee00",
+      "#d4ee00",
+      "#eecc00",
+      "#ee9c00",
+      "#ea822c",
+      "#ea2c2c"
+    ];
+
+    // Looping through our intervals to generate a label with a colored square for each interval.
+    for (var i = 0; i < magnitudes.length; i++) {
+      console.log(colors[i]);
+      div.innerHTML +=
+        "<i style='background: " + colors[i] + "'></i> " +
+        magnitudes[i] + (magnitudes[i + 1] ? "&ndash;" + magnitudes[i + 1] + "<br>" : "+");
+    }
+    return div;
+  };
+
+  // Finally, we our legend to the map.
+  legend.addTo(myMap);
 
   // Create a layer control.
   // Pass it our baseMaps and overlayMaps.
