@@ -17,11 +17,7 @@ d3.json(queryUrl).then(function (data) {
         
         return magnitude * 5;
       }
-      function styleInfo(feature){
-          return {
-            radius: getRadius(feature.properties.mag)
-          }
-        }  
+  
      // This function determines the color of the marker based on the magnitude of the earthquake.
 
         function getColor(magnitude) {
@@ -42,14 +38,10 @@ d3.json(queryUrl).then(function (data) {
          }
          return "#98ee00";
        }
-       function styleInfo(feature){
-        return {
-          radius: getColor(feature.geometry.coordinates[2])
-        }
-      }  
-  
+ 
        function styleInfo (feature) {
         return {
+            radius: getRadius(feature.properties.mag),
             fillColor: getColor(feature.geometry.coordinates[2]),
             weight: 2,
             opacity: 1,
